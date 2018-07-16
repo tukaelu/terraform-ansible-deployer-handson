@@ -5,3 +5,5 @@ secret_key = ""
 vpc_name = "handson-vpc"
 
 vpc_cidr = "10.0.0.0/16"
+
+ssh_public_key = ""
