@@ -5,10 +5,14 @@ module "front-asg" {
 
   lc_name = "handson-front-lc"
 
-  image_id        = "ami-e99f4896"
-  instance_type   = "t2.micro"
-  key_name        = "${aws_key_pair.bastion.key_name}"
-  security_groups = ["${module.allow-http-sg.this_security_group_id}"]
+  image_id      = "ami-e99f4896"
+  instance_type = "t2.micro"
+  key_name      = "${aws_key_pair.bastion.key_name}"
+
+  security_groups = [
+    "${module.allow-http-sg.this_security_group_id}",
+    "${module.allow-ssh-sg.this_security_group_id}",
+  ]
 
   ebs_block_device = [
     {
