@@ -26,13 +26,6 @@ resource "aws_alb_target_group" "front-web-alb" {
   }
 }
 
-resource "aws_alb_target_group_attachment" "front-web-alb" {
-  count = "${length(data.aws_instances.front-web.ids)}"
-
-  target_group_arn = "${aws_alb_target_group.front-web-alb.arn}"
-  target_id        = "${data.aws_instances.front-web.ids[count.index]}"
-}
-
 resource "aws_alb_listener" "front-web-alb" {
   load_balancer_arn = "${aws_alb.front-web-alb.arn}"
   port              = 80
@@ -44,11 +37,7 @@ resource "aws_alb_listener" "front-web-alb" {
   }
 }
 
-data "aws_instances" "front-web" {
-  instance_tags {
-    Environment = "handson"
-    Name        = "front-web"
-  }
-
-  instance_state_names = ["running", "stopped"]
+resource "aws_autoscaling_attachment" "front-web-alb" {
+  autoscaling_group_name = "${module.front-asg.this_autoscaling_group_id}"
+  alb_target_group_arn   = "${aws_alb_target_group.front-web-alb.arn}"
 }
