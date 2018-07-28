@@ -37,7 +37,25 @@ resource "aws_alb_listener" "front-web-alb" {
   }
 }
 
-resource "aws_autoscaling_attachment" "front-web-alb" {
-  autoscaling_group_name = "${module.front-asg.this_autoscaling_group_id}"
+resource "aws_autoscaling_attachment" "front-web-scaling" {
+  autoscaling_group_name = "${module.front-web-scaling.this_autoscaling_group_id}"
   alb_target_group_arn   = "${aws_alb_target_group.front-web-alb.arn}"
+}
+
+resource "aws_alb_target_group_attachment" "front-web-a" {
+  count            = "${var.desired_ondemand_capacity}"
+  target_group_arn = "${aws_alb_target_group.front-web-alb.arn}"
+  target_id        = "${module.front-web-a.id[count.index]}"
+}
+
+resource "aws_alb_target_group_attachment" "front-web-c" {
+  count            = "${var.desired_ondemand_capacity}"
+  target_group_arn = "${aws_alb_target_group.front-web-alb.arn}"
+  target_id        = "${module.front-web-c.id[count.index]}"
+}
+
+resource "aws_alb_target_group_attachment" "front-web-d" {
+  count            = "${var.desired_ondemand_capacity}"
+  target_group_arn = "${aws_alb_target_group.front-web-alb.arn}"
+  target_id        = "${module.front-web-d.id[count.index]}"
 }

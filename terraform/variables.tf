@@ -12,3 +12,7 @@ variable "ssh_public_key" {}
 
 # Allow SSH IP
 variable "allow_ssh_ip" {}
+
+variable "desired_ondemand_capacity" {}
+variable "autoscale_max_size" {}
+variable "autoscale_desired_capasity" {}

@@ -1,3 +1,5 @@
+data "aws_availability_zones" "azs" {}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -5,9 +7,7 @@ module "vpc" {
   cidr = "${var.vpc_cidr}"
 
   azs = [
-    "ap-northeast-1a",
-    "ap-northeast-1c",
-    "ap-northeast-1d",
+    "${data.aws_availability_zones.azs.names}",
   ]
 
   private_subnets = [

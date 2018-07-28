@@ -9,3 +9,7 @@ vpc_cidr = "10.0.0.0/16"
 ssh_public_key = ""
 
 allow_ssh_ip = ""
+
+desired_ondemand_capacity = 1
+autoscale_max_size = 0
+autoscale_desired_capasity = 0
